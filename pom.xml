@@ -111,7 +111,9 @@
         <resources>
             <resource>
                 <directory>src/test/resources</directory>
-                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
             </resource>
         </resources>
         <plugins>

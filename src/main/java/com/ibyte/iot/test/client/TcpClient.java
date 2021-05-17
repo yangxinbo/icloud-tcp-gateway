@@ -13,7 +13,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 public class TcpClient {
 
-    public static String host = "iot-open.icloud.com";
+    public static String host = "localhost";
     public static int port = 2000;
 
     public static Bootstrap bootstrap = getBootstrap();
