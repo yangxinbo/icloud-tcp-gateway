@@ -16,6 +16,7 @@ public class TcpSender implements Sender {
         this.tcpConnector = tcpConnector;
     }
 
+    @Override
     public void sendMessage(MessageWrapper wrapper) throws RuntimeException {
         try {
             tcpConnector.send(wrapper.getSessionId(), wrapper.getBody());
@@ -25,6 +26,7 @@ public class TcpSender implements Sender {
         }
     }
 
+    @Override
     public boolean existSession(MessageWrapper wrapper) throws RuntimeException {
         try {
             return tcpConnector.exist(wrapper.getSessionId());

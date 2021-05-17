@@ -32,6 +32,7 @@ public class ExchangeSession extends SessionValid {
      */
     private transient SessionManager sessionManager = null;
 
+    @Override
     public void access() {
         // Check to see if access is in progress or has previously been called
         if (!isValid) {
@@ -40,6 +41,7 @@ public class ExchangeSession extends SessionValid {
         lastAccessedTime = System.currentTimeMillis();
     }
 
+    @Override
     public void connect() {
         // Check to see if tellNew is in progress or has previously been called
         if (connecting || !isValid) {
@@ -70,6 +72,7 @@ public class ExchangeSession extends SessionValid {
      * Perform the internal processing required to invalidate this session,
      * without triggering an exception if the session has already expired.
      */
+    @Override
     public void close() {
         close(true);
     }
@@ -122,6 +125,7 @@ public class ExchangeSession extends SessionValid {
      * Release all object references, and initialize instance variables, in
      * preparation for reuse of this object.
      */
+    @Override
     public void recycle() {
         logger.debug("the session " + sessionId + " is recycled!");
         // Remove this session from our manager's active sessions
@@ -140,6 +144,7 @@ public class ExchangeSession extends SessionValid {
         sessionManager = null;
     }
 
+    @Override
     public boolean expire() {
         //A negative time indicates that the session should never time out.
         if (maxInactiveInterval < 0)
@@ -156,6 +161,7 @@ public class ExchangeSession extends SessionValid {
     /**
      * Add a session event listener to this component.
      */
+    @Override
     public void addSessionListener(SessionListener listener) {
         if (null == listener) {
             throw new IllegalArgumentException("addSessionListener listener");
@@ -166,6 +172,7 @@ public class ExchangeSession extends SessionValid {
     /**
      * Remove a session event listener from this component.
      */
+    @Override
     public void removeSessionListener(SessionListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException("removeSessionListener listener");
@@ -173,26 +180,32 @@ public class ExchangeSession extends SessionValid {
         listeners.remove(listener);
     }
 
+    @Override
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
+    @Override
     public String getSessionId() {
         return sessionId;
     }
 
+    @Override
     public void setSessionManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
+    @Override
     public SessionManager getSessionManager() {
         return sessionManager;
     }
 
+    @Override
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
+    @Override
     public Connection getConnection() {
         return this.connection;
     }

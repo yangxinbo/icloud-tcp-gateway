@@ -22,9 +22,11 @@ public class TcpConnection<T> extends ExchangeConnection<T> {
         this.cxt = cxt;
     }
 
+    @Override
     public void connect() {
     }
 
+    @Override
     public void close() {
         this.close = true;
 

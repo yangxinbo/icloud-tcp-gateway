@@ -11,6 +11,7 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
 
     private final static Logger logger = LoggerFactory.getLogger(TcpClientHandler.class);
 
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object o) throws Exception {
         MessageBuf.JMTransfer message = (MessageBuf.JMTransfer) o;
 

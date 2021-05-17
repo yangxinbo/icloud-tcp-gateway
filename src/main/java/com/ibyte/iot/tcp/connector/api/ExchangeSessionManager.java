@@ -31,6 +31,7 @@ public abstract class ExchangeSessionManager implements SessionManager {
      */
     protected Map<String, Session> sessions = new ConcurrentHashMap<String, Session>();
 
+    @Override
     public synchronized void addSession(Session session) {
         if (null == session) {
             return;
@@ -49,6 +50,7 @@ public abstract class ExchangeSessionManager implements SessionManager {
     /**
      * Remove this Session from the active Sessions for this Manager.
      */
+    @Override
     public synchronized void removeSession(Session session) {
         if (session == null) {
             throw new IllegalArgumentException("session is null!");
@@ -56,23 +58,28 @@ public abstract class ExchangeSessionManager implements SessionManager {
         removeSession(session.getSessionId());
     }
 
+    @Override
     public synchronized void removeSession(String sessionId) {
         sessions.remove(sessionId);
         logger.debug("remove the session " + sessionId + " from sessions!");
     }
 
+    @Override
     public Session getSession(String sessionId) {
         return sessions.get(sessionId);
     }
 
+    @Override
     public Session[] getSessions() {
         return sessions.values().toArray(new Session[0]);
     }
 
+    @Override
     public Set<String> getSessionKeys() {
         return sessions.keySet();
     }
 
+    @Override
     public int getSessionCount() {
         return sessions.size();
     }
@@ -82,10 +89,12 @@ public abstract class ExchangeSessionManager implements SessionManager {
      */
     private int maxInactiveInterval = 5 * 60;
 
+    @Override
     public int getMaxInactiveInterval() {
         return maxInactiveInterval;
     }
 
+    @Override
     public void setMaxInactiveInterval(int maxInactiveInterval) {
         this.maxInactiveInterval = maxInactiveInterval;
     }

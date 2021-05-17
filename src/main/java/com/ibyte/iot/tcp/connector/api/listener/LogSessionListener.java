@@ -10,10 +10,12 @@ public class LogSessionListener implements SessionListener {
 
     private final static Logger logger = LoggerFactory.getLogger(LogSessionListener.class);
 
+    @Override
     public void sessionCreated(SessionEvent se) {
         logger.info("session " + se.getSession().getSessionId() + " have been created!");
     }
 
+    @Override
     public void sessionDestroyed(SessionEvent se) {
         logger.info("session " + se.getSession().getSessionId() + " have been destroyed!");
     }

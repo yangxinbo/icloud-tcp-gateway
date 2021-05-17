@@ -11,6 +11,7 @@ import com.ibyte.iot.test.data.Protocol;
 
 public class TestSimpleProxy implements ApiProxy {
 
+    @Override
     public MessageWrapper invoke(SystemMessage sMsg, MessageBuf.JMTransfer message) {
         ByteString body = message.getBody();
 

@@ -15,6 +15,7 @@ public class TcpConnector extends ExchangeTcpConnector {
 
     private TcpHeartbeatListener tcpHeartbeatListener = null;
 
+    @Override
     public void init() {
         tcpHeartbeatListener = new TcpHeartbeatListener(tcpSessionManager);
 
@@ -23,6 +24,7 @@ public class TcpConnector extends ExchangeTcpConnector {
         heartbeatThread.start();
     }
 
+    @Override
     public void destroy() {
         tcpHeartbeatListener.stop();
 

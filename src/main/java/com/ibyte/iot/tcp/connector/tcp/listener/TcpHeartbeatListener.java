@@ -98,10 +98,12 @@ public class TcpHeartbeatListener implements Runnable, SessionListener {
         this.stop = true;
     }
 
+    @Override
     public void sessionCreated(SessionEvent se) {
         signalQueue();
     }
 
+    @Override
     public void sessionDestroyed(SessionEvent se) {
     }
 

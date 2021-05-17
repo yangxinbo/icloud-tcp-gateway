@@ -52,6 +52,7 @@ public abstract class SessionValid implements Session {
      */
     protected Map<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
+    @Override
     public boolean isValid() {
         if (closing) {
             return true;
@@ -59,34 +60,42 @@ public abstract class SessionValid implements Session {
         return (isValid);
     }
 
+    @Override
     public void setValid(boolean isValid) {
         this.isValid = isValid;
     }
 
+    @Override
     public void setCreationTime(long creationTime) {
         this.creationTime = creationTime;
     }
 
+    @Override
     public long getCreationTime() {
         return creationTime;
     }
 
+    @Override
     public void setLastAccessedTime(long lastAccessedTime) {
         this.lastAccessedTime = lastAccessedTime;
     }
 
+    @Override
     public long getLastAccessedTime() {
         return lastAccessedTime;
     }
 
+    @Override
     public void setMaxInactiveInterval(int maxInactiveInterval) {
         this.maxInactiveInterval = maxInactiveInterval;
     }
 
+    @Override
     public int getMaxInactiveInterval() {
         return maxInactiveInterval;
     }
 
+    @Override
     public void setAttribute(String name, Object value) {
         if (!isValid()) {
             throw new IllegalStateException("[setAttribute]Session already invalidated");
@@ -98,6 +107,7 @@ public abstract class SessionValid implements Session {
         attributes.put(name, value);
     }
 
+    @Override
     public Object getAttribute(String name) {
         if (!isValid()) {
             throw new IllegalStateException("[getAttribute]Session already invalidated");

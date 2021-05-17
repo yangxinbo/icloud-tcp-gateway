@@ -5,6 +5,7 @@ import com.ibyte.iot.tcp.connector.Session;
 
 /**
  * Created by Li.shangzhi on 17/1/10.
+ * <blog:lishangzhi.github.io> 
  */
 public abstract class ExchangeConnection<T> implements Connection<T> {
 
@@ -22,18 +23,22 @@ public abstract class ExchangeConnection<T> implements Connection<T> {
         return close;
     }
 
+    @Override
     public void setConnectionId(String connectionId) {
         this.connectionId = connectionId;
     }
 
+    @Override
     public String getConnectionId() {
         return connectionId;
     }
 
+    @Override
     public void setSession(Session session) {
         this.session = session;
     }
 
+    @Override
     public Session getSession() {
         return session;
     }

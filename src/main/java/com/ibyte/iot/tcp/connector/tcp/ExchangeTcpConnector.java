@@ -30,10 +30,12 @@ public abstract class ExchangeTcpConnector<T> extends ExchangeConnector<T> {
 
     public abstract void responseNoKeepAliveMessage(ChannelHandlerContext ctx, MessageWrapper wrapper);
 
+    @Override
     public void send(String sessionId, T message) throws Exception {
         super.send(tcpSessionManager, sessionId, message);
     }
 
+    @Override
     public boolean exist(String sessionId) throws Exception {
         Session session = tcpSessionManager.getSession(sessionId);
         return session != null ? true : false;
