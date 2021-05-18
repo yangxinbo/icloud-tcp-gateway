@@ -1,4 +1,5 @@
 package com.ibyte.iot.tcp.utils;
+
 /**
  * Created by Li.shangzhi on 17/1/10.
  */

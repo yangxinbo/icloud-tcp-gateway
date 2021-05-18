@@ -64,14 +64,12 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("TcpServerHandler Connected from {" +
-                NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
+        logger.debug("TcpServerHandler Connected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("TcpServerHandler Disconnected from {" +
-                NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
+        logger.debug("TcpServerHandler Disconnected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.ibyte.iot.tcp.notify.NotifyProxy;
 import com.ibyte.iot.tcp.remoting.TcpSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.List;
 public class NettyServer {
 
     @Bean
-    public TcpServer tcpServer() throws Exception {
+    public TcpServer tcpServer() {
         TcpServer tcpServer = new TcpServer();
         tcpServer.setPort(2000);
         return tcpServer;
