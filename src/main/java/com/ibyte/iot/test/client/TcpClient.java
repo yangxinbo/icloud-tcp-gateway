@@ -38,8 +38,6 @@ public class TcpClient {
                 pipeline.addLast("handler", new TcpClientHandler());
             }
         });
-
-
         b.option(ChannelOption.SO_KEEPALIVE, true);
         return b;
     }

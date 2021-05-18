@@ -8,6 +8,19 @@ import java.util.Date;
 public class Protocol {
 
     public static MessageBuf.JMTransfer.Builder generateConnect() {
+
+        // 连接
+        Login.MessageBufPro.MessageReq.Builder logReq = Login.MessageBufPro.MessageReq.newBuilder();
+        logReq.setMethod("connect");
+        logReq.setToken("iosaaa");
+        logReq.setParam("123");
+        logReq.setSign("ios333");
+        logReq.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        logReq.setV("1.0");
+        logReq.setDevice("tcp test");
+        logReq.setApp("server");
+        logReq.setCmd(Login.MessageBufPro.CMD.CONNECT);
+
         MessageBuf.JMTransfer.Builder builder = MessageBuf.JMTransfer.newBuilder();
         builder.setVersion("1.0");
         builder.setDeviceId("test");
@@ -21,22 +34,23 @@ public class Protocol {
         builder.setAppKey("123");
         builder.setTimeStamp("123456");
         builder.setSign("123");
-
-        Login.MessageBufPro.MessageReq.Builder logReq = Login.MessageBufPro.MessageReq.newBuilder();
-        logReq.setMethod("connect");
-        logReq.setToken("iosaaa");
-        logReq.setParam("123");
-        logReq.setSign("ios333");
-        logReq.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        logReq.setV("1.0");
-        logReq.setDevice("tcp test");
-        logReq.setApp("server");
-        logReq.setCmd(Login.MessageBufPro.CMD.CONNECT); // 连接
         builder.setBody(logReq.build().toByteString());
         return builder;
     }
 
     public static MessageBuf.JMTransfer.Builder generateHeartbeat() {
+        // 心跳
+        Login.MessageBufPro.MessageReq.Builder heartbeatReq = Login.MessageBufPro.MessageReq.newBuilder();
+        heartbeatReq.setMethod("123");
+        heartbeatReq.setToken("iosaaa");
+        heartbeatReq.setParam("123");
+        heartbeatReq.setSign("ios333");
+        heartbeatReq.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        heartbeatReq.setV("1.0");
+        heartbeatReq.setDevice("tcp test");
+        heartbeatReq.setApp("server");
+        heartbeatReq.setCmd(Login.MessageBufPro.CMD.HEARTBEAT);
+
         MessageBuf.JMTransfer.Builder builder = MessageBuf.JMTransfer.newBuilder();
         builder.setVersion("1.0");
         builder.setDeviceId("test");
@@ -50,20 +64,7 @@ public class Protocol {
         builder.setAppKey("123");
         builder.setTimeStamp("123456");
         builder.setSign("123");
-
-        Login.MessageBufPro.MessageReq.Builder heartbeatReq = Login.MessageBufPro.MessageReq.newBuilder();
-        heartbeatReq.setMethod("123");
-        heartbeatReq.setToken("iosaaa");
-        heartbeatReq.setParam("123");
-        heartbeatReq.setSign("ios333");
-        heartbeatReq.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        heartbeatReq.setV("1.0");
-        heartbeatReq.setDevice("tcp test");
-        heartbeatReq.setApp("server");
-        heartbeatReq.setCmd(Login.MessageBufPro.CMD.HEARTBEAT); // 心跳
-
         builder.setBody(heartbeatReq.build().toByteString());
-
         return builder;
     }
 }

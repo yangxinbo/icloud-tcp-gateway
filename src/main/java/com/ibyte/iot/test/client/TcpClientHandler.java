@@ -14,8 +14,6 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object o) throws Exception {
         MessageBuf.JMTransfer message = (MessageBuf.JMTransfer) o;
-
         logger.info("Client Received Msg :" + message);
-        System.out.println("Client Received Msg :" + message);
     }
 }
