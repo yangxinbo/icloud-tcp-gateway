@@ -147,8 +147,9 @@ public class ExchangeSession extends SessionValid {
     @Override
     public boolean expire() {
         //A negative time indicates that the session should never time out.
-        if (maxInactiveInterval < 0)
+        if (maxInactiveInterval < 0) {
             return false;
+        }
 
         long timeNow = System.currentTimeMillis();
         int timeIdle = (int) ((timeNow - lastAccessedTime) / 1000L);

@@ -3,16 +3,22 @@ package com.ibyte.iot.tcp.connector.tcp.config;
 import com.ibyte.iot.tcp.connector.tcp.TcpConnector;
 import com.ibyte.iot.tcp.invoke.ApiProxy;
 import com.ibyte.iot.tcp.notify.NotifyProxy;
-
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 
 public class ServerTransportConfig {
 
-    // handler
+    /**
+     * handler
+     */
     private TcpConnector tcpConnector = null;
-    // codec
+    /**
+     * codec
+     */
     private ProtobufDecoder decoder = null;
-    // invoke
+
+    /**
+     * invoke
+     */
     private ApiProxy proxy = null;
     private NotifyProxy notify = null;
 

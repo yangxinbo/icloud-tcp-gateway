@@ -1,11 +1,11 @@
 package com.ibyte.iot.tcp.common;
+
 /**
- * @FileName Node.java
- * @Description: 
- *
- * @Date Jan 15, 2019 11:03:17 AM
  * @author Li.shangzhi
  * @version 1.0
+ * @FileName Node.java
+ * @Description:
+ * @Date Jan 15, 2019 11:03:17 AM
  */
 public interface Node {
 

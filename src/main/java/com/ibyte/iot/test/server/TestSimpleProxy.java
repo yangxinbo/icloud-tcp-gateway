@@ -8,7 +8,9 @@ import com.ibyte.iot.tcp.message.MessageWrapper;
 import com.ibyte.iot.tcp.message.SystemMessage;
 import com.ibyte.iot.test.data.Login;
 import com.ibyte.iot.test.data.Protocol;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TestSimpleProxy implements ApiProxy {
 
     @Override

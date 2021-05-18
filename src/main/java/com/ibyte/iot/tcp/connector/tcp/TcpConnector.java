@@ -4,16 +4,13 @@ import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.tcp.listener.TcpHeartbeatListener;
 import com.ibyte.iot.tcp.message.MessageWrapper;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+@Slf4j
 public class TcpConnector extends ExchangeTcpConnector {
-
-    private final static Logger logger = LoggerFactory.getLogger(TcpConnector.class);
 
     private TcpHeartbeatListener tcpHeartbeatListener = null;
 
@@ -48,7 +45,7 @@ public class TcpConnector extends ExchangeTcpConnector {
             /** send **/
             session.getConnection().send(wrapper.getBody());
         } catch (Exception e) {
-            logger.error("TcpConnector connect occur Exception.", e);
+            log.error("TcpConnector connect occur Exception.", e);
         }
     }
 
@@ -66,7 +63,7 @@ public class TcpConnector extends ExchangeTcpConnector {
             Session session = tcpSessionManager.getSession(wrapper.getSessionId());
             session.getConnection().send(wrapper.getBody());
         } catch (Exception e) {
-            logger.error("TcpConnector heartbeatClient occur Exception.", e);
+            log.error("TcpConnector heartbeatClient occur Exception.", e);
         }
     }
 
@@ -76,7 +73,7 @@ public class TcpConnector extends ExchangeTcpConnector {
             Session session = tcpSessionManager.getSession(wrapper.getSessionId());
             session.getConnection().send(wrapper.getBody());
         } catch (Exception e) {
-            logger.error("TcpConnector responseSendMessage occur Exception.", e);
+            log.error("TcpConnector responseSendMessage occur Exception.", e);
         }
     }
 
@@ -86,7 +83,7 @@ public class TcpConnector extends ExchangeTcpConnector {
             NoKeepAliveTcpConnection connection = new NoKeepAliveTcpConnection(ctx);
             connection.send(wrapper.getBody());
         } catch (Exception e) {
-            logger.error("TcpConnector responseNoKeepAliveMessage occur Exception.", e);
+            log.error("TcpConnector responseNoKeepAliveMessage occur Exception.", e);
         }
     }
 }

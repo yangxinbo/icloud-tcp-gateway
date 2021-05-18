@@ -1,14 +1,15 @@
 package com.ibyte.iot.tcp.common;
+
 import com.ibyte.iot.tcp.connector.Connection;
 import com.ibyte.iot.tcp.connector.SessionManager;
 import com.ibyte.iot.tcp.connector.api.listener.SessionListener;
+
 /**
- * @FileName Endpoint.java
- * @Description: 
- *
- * @Date Jan 15, 2019 11:02:35 AM
  * @author Li.shangzhi
  * @version 1.0
+ * @FileName Endpoint.java
+ * @Description:
+ * @Date Jan 15, 2019 11:02:35 AM
  */
 public interface Endpoint extends Node {
 

@@ -12,19 +12,16 @@ import com.ibyte.iot.tcp.utils.NetUtils;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 //public class TcpServerHandler extends ChannelHandlerAdapter {
+@Slf4j
 @ChannelHandler.Sharable
 public class TcpServerHandler extends ChannelInboundHandlerAdapter {
-
-    private final static Logger logger = LoggerFactory.getLogger(TcpServerHandler.class);
 
     private TcpConnector tcpConnector = null;
     private ApiProxy proxy = null;
@@ -36,6 +33,13 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         this.notify = config.getNotify();
     }
 
+    /**
+     * read
+     *
+     * @param ctx
+     * @param o
+     * @throws Exception
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object o) throws Exception {
         try {
@@ -54,47 +58,78 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
                     notify.reply(message);
                 }
             } else {
-                logger.warn("TcpServerHandler channelRead message is not proto.");
+                log.warn("TcpServerHandler channelRead message is not proto.");
             }
         } catch (Exception e) {
-            logger.error("TcpServerHandler TcpServerHandler handler error.", e);
+            log.error("TcpServerHandler TcpServerHandler handler error.", e);
             throw e;
         }
     }
 
+    /**
+     * registered
+     *
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("TcpServerHandler Connected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
+        log.debug("TcpServerHandler Connected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
+    /**
+     * unregistered
+     *
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("TcpServerHandler Disconnected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
+        log.debug("TcpServerHandler Disconnected from {" + NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
+    /**
+     * active
+     *
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        logger.debug("TcpServerHandler channelActive from (" + getRemoteAddress(ctx) + ")");
+        log.debug("TcpServerHandler channelActive from (" + getRemoteAddress(ctx) + ")");
     }
 
+    /**
+     * inactive
+     *
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        logger.debug("TcpServerHandler channelInactive from (" + getRemoteAddress(ctx) + ")");
+        log.debug("TcpServerHandler channelInactive from (" + getRemoteAddress(ctx) + ")");
         String sessionId0 = getChannelSessionHook(ctx);
         if (StringUtils.isNotBlank(sessionId0)) {
             tcpConnector.close(new MessageWrapper(MessageWrapper.MessageProtocol.CLOSE, sessionId0, null));
-            logger.warn("TcpServerHandler channelInactive, close channel sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString());
+            log.warn("TcpServerHandler channelInactive, close channel sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString());
         }
     }
 
+    /**
+     * exception
+     *
+     * @param ctx
+     * @param cause
+     * @throws Exception
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.warn("TcpServerHandler (" + getRemoteAddress(ctx) + ") -> Unexpected exception from downstream." + cause);
+        log.warn("TcpServerHandler (" + getRemoteAddress(ctx) + ") -> Unexpected exception from downstream." + cause);
         String sessionId0 = getChannelSessionHook(ctx);
         if (StringUtils.isNotBlank(sessionId0)) {
-            logger.error("TcpServerHandler exceptionCaught (sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString() + ") -> Unexpected exception from downstream." + cause);
+            log.error("TcpServerHandler exceptionCaught (sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString() + ") -> Unexpected exception from downstream." + cause);
         }
     }
 
@@ -133,32 +168,49 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
 
     private void isConnect0(ChannelHandlerContext ctx, MessageWrapper wrapper) {
         String sessionId = wrapper.getSessionId();
-        String sessionId0 = getChannelSessionHook(ctx);
-        if (sessionId.equals(sessionId0)) {
-            logger.info("tcpConnector reconnect sessionId -> " + sessionId + ", ctx -> " + ctx.toString());
+        String localSessionId = getChannelSessionHook(ctx);
+        if (sessionId.equals(localSessionId)) {
+            log.info("tcpConnector reconnect sessionId -> " + sessionId + ", ctx -> " + ctx.toString());
             tcpConnector.responseSendMessage(wrapper);
         } else {
-            logger.info("tcpConnector connect sessionId -> " + sessionId + ", sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString());
+            log.info("tcpConnector connect sessionId -> " + sessionId + ", sessionId0 -> " + localSessionId + ", ctx -> " + ctx.toString());
             tcpConnector.connect(ctx, wrapper);
             setChannelSessionHook(ctx, sessionId);
-            logger.info("create channel attr sessionId " + sessionId + " successful, ctx -> " + ctx.toString());
+            log.info("create channel attr sessionId " + sessionId + " successful, ctx -> " + ctx.toString());
         }
     }
 
+    /**
+     * 组织系统消息
+     *
+     * @param ctx
+     * @return
+     */
     private SystemMessage generateSystemMessage(ChannelHandlerContext ctx) {
         SystemMessage systemMessage = new SystemMessage();
         systemMessage.setRemoteAddress(getRemoteAddress(ctx));
         systemMessage.setLocalAddress(getLocalAddress(ctx));
-
         return systemMessage;
     }
 
+    /**
+     * 获取远程ip
+     *
+     * @param ctx
+     * @return
+     */
     private String getRemoteAddress(ChannelHandlerContext ctx) {
         SocketAddress remote1 = ctx.channel().remoteAddress();
         InetSocketAddress remote = (InetSocketAddress) remote1;
         return NetUtils.toAddressString(remote);
     }
 
+    /**
+     * 获取本地ip
+     *
+     * @param ctx
+     * @return
+     */
     private String getLocalAddress(ChannelHandlerContext ctx) {
         SocketAddress local1 = ctx.channel().localAddress();
         InetSocketAddress local = (InetSocketAddress) local1;

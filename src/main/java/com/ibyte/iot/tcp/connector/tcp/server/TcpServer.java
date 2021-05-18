@@ -45,7 +45,7 @@ public class TcpServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        ProtobufAdapter adapter = new ProtobufAdapter(serverConfig);
+                        ProtobufAdapter adapter = new ProtobufAdapter();
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
                         pipeline.addLast("decoder", adapter.getDecoder());
@@ -54,7 +54,6 @@ public class TcpServer {
                         pipeline.addLast("handler", new TcpServerHandler(serverConfig));
                     }
                 })
-
                 // 可选参数
                 .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
 

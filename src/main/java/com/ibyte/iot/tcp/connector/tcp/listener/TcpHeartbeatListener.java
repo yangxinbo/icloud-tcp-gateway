@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Component
 public class TcpHeartbeatListener implements Runnable, SessionListener {
 
     private final static Logger logger = LoggerFactory.getLogger(TcpHeartbeatListener.class);
