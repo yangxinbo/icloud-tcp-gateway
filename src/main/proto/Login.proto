@@ -1,3 +1,6 @@
+
+option java_package = "com.ibyte.iot.test.data";
+
 message MessageBufPro {
   enum ProtocolField {
     HEART_BEAT = 0;

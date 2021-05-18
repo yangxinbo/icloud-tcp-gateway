@@ -37,6 +37,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         this.notify = config.getNotify();
     }
 
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object o) throws Exception {
         try {
             if (o instanceof MessageBuf.JMTransfer) {
@@ -61,21 +62,25 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+    @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         logger.debug("TcpServerHandler Connected from {" +
                 NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
+    @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         logger.debug("TcpServerHandler Disconnected from {" +
                 NetUtils.channelToString(ctx.channel().remoteAddress(), ctx.channel().localAddress()) + "}");
     }
 
+    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         logger.debug("TcpServerHandler channelActive from (" + getRemoteAddress(ctx) + ")");
     }
 
+    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
         logger.debug("TcpServerHandler channelInactive from (" + getRemoteAddress(ctx) + ")");
@@ -86,6 +91,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+    @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.warn("TcpServerHandler (" + getRemoteAddress(ctx) + ") -> Unexpected exception from downstream." + cause);
         String sessionId0 = getChannelSessionHook(ctx);

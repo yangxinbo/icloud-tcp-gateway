@@ -1,3 +1,6 @@
+
+option java_package = "com.ibyte.iot.tcp.connector.tcp.codec";
+
 message JMTransfer {
   required string version = 1;//接口版本号
   required string deviceId = 2;//设备uuid
