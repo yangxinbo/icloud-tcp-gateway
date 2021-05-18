@@ -31,6 +31,11 @@ public abstract class ExchangeSessionManager implements SessionManager {
      */
     protected Map<String, Session> sessions = new ConcurrentHashMap<String, Session>();
 
+    /**
+     * define timeout 5min
+     */
+    private int maxInactiveInterval = 5 * 60;
+
     @Override
     public synchronized void addSession(Session session) {
         if (null == session) {
@@ -40,6 +45,7 @@ public abstract class ExchangeSessionManager implements SessionManager {
         logger.debug("put a session " + session.getSessionId() + " to sessions!");
     }
 
+    @Override
     public synchronized void updateSession(String sessionId) {
         Session session = sessions.get(sessionId);
         session.setLastAccessedTime(System.currentTimeMillis());
@@ -83,11 +89,6 @@ public abstract class ExchangeSessionManager implements SessionManager {
     public int getSessionCount() {
         return sessions.size();
     }
-
-    /**
-     * define timeout 5min
-     */
-    private int maxInactiveInterval = 5 * 60;
 
     @Override
     public int getMaxInactiveInterval() {

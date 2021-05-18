@@ -32,9 +32,7 @@ public class Protocol {
         logReq.setDevice("tcp test");
         logReq.setApp("server");
         logReq.setCmd(Login.MessageBufPro.CMD.CONNECT); // 连接
-
         builder.setBody(logReq.build().toByteString());
-
         return builder;
     }
 
