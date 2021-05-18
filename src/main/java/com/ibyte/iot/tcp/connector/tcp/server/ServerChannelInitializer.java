@@ -10,6 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
+@Deprecated
 @ChannelHandler.Sharable
 public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 

@@ -1,14 +1,15 @@
 package com.ibyte.iot.tcp.connector.tcp.server;
 
+import com.ibyte.iot.tcp.connector.tcp.codec.ProtobufAdapter;
 import com.ibyte.iot.tcp.connector.tcp.config.ServerTransportConfig;
 import com.ibyte.iot.tcp.exception.InitErrorException;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,44 +19,54 @@ import javax.annotation.PreDestroy;
 @Slf4j
 public class TcpServer {
 
-    @Autowired
-    private ServerTransportConfig serverConfig;
-
     private int port;
-
     private static final int BIZ_GROUP_SIZE = Runtime.getRuntime().availableProcessors() * 2;
     private static final int BIZ_THREAD_SIZE = 4;
 
-    private final EventLoopGroup bossGroup = new NioEventLoopGroup(BIZ_GROUP_SIZE);
-    private final EventLoopGroup workerGroup = new NioEventLoopGroup(BIZ_THREAD_SIZE);
+    private EventLoopGroup bossGroup = null;
+    private EventLoopGroup workerGroup = null;
+
+    @Autowired
+    private ServerTransportConfig serverConfig;
 
     @PostConstruct
     public void init() throws Exception {
-        boolean flag = Boolean.FALSE;
         log.info("start tcp server ...");
 
-        Class clazz = NioServerSocketChannel.class;
-        // Server 服务启动
-        ServerBootstrap bootstrap = new ServerBootstrap();
+        // 一个主线程组
+        bossGroup = new NioEventLoopGroup(BIZ_GROUP_SIZE);
+        // 一个工作线程组
+        workerGroup = new NioEventLoopGroup(BIZ_THREAD_SIZE);
 
-        bootstrap.group(bossGroup, workerGroup);
-        bootstrap.channel(clazz);
-        bootstrap.childHandler(new ServerChannelInitializer(serverConfig));
-        // 可选参数
-        bootstrap.childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
+        // Server 服务启动
+        ServerBootstrap bootstrap = new ServerBootstrap()
+                .group(bossGroup, workerGroup)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        ProtobufAdapter adapter = new ProtobufAdapter(serverConfig);
+                        ChannelPipeline pipeline = socketChannel.pipeline();
+                        pipeline.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
+                        pipeline.addLast("decoder", adapter.getDecoder());
+                        pipeline.addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
+                        pipeline.addLast("encoder", adapter.getEncoder());
+                        pipeline.addLast("handler", new TcpServerHandler(serverConfig));
+                    }
+                })
+
+                // 可选参数
+                .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
 
         // 绑定接口，同步等待成功
         log.info("start tcp server at port[" + port + "].");
         ChannelFuture future = bootstrap.bind(port).sync();
-        ChannelFuture channelFuture = future.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) throws Exception {
-                if (future.isSuccess()) {
-                    log.info("Server have success bind to " + port);
-                } else {
-                    log.error("Server fail bind to " + port);
-                    throw new InitErrorException("Server start fail !", future.cause());
-                }
+        future.addListener((ChannelFutureListener) channelFuture -> {
+            if (channelFuture.isSuccess()) {
+                log.info("Server have success bind to " + port);
+            } else {
+                log.error("Server fail bind to " + port);
+                throw new InitErrorException("Server start fail !", channelFuture.cause());
             }
         });
     }

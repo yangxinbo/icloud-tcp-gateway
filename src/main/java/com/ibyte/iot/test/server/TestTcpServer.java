@@ -13,8 +13,6 @@ public class TestTcpServer {
      */
     public static void main(String[] args) {
         SpringApplication.run(TestTcpServer.class, args);
-        //ApplicationContext context = new FileSystemXmlApplicationContext(new String[]{"classpath:spring-config.xml"});
-        //context.getApplicationName();
     }
 
 }
