@@ -4,14 +4,15 @@ import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.api.listener.SessionEvent;
 import com.ibyte.iot.tcp.connector.api.listener.SessionListener;
 import com.ibyte.iot.tcp.connector.tcp.TcpSessionManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Component
 public class TcpHeartbeatListener implements Runnable, SessionListener {
 
     private final static Logger logger = LoggerFactory.getLogger(TcpHeartbeatListener.class);
@@ -28,6 +29,7 @@ public class TcpHeartbeatListener implements Runnable, SessionListener {
         this.tcpSessionManager = tcpSessionManager;
     }
 
+    @Override
     public void run() {
         while (!stop) {
             if (isEmpty()) {
@@ -82,15 +84,17 @@ public class TcpHeartbeatListener implements Runnable, SessionListener {
         boolean flag = false;
         try {
             flag = lock.tryLock(100, TimeUnit.MILLISECONDS);
-            if (flag)
+            if (flag) {
                 notEmpty.signalAll();
+            }
         } catch (InterruptedException e) {
             logger.error("TcpHeartbeatListener signalQueue occur InterruptedException!", e);
         } catch (Exception e) {
             logger.error("signal Thread Queue error!", e);
         } finally {
-            if (flag)
+            if (flag) {
                 lock.unlock();
+            }
         }
     }
 

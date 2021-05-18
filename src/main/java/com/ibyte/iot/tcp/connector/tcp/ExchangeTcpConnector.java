@@ -3,11 +3,12 @@ package com.ibyte.iot.tcp.connector.tcp;
 import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.api.ExchangeConnector;
 import com.ibyte.iot.tcp.message.MessageWrapper;
-
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class ExchangeTcpConnector<T> extends ExchangeConnector<T> {
 
+    @Autowired
     protected TcpSessionManager tcpSessionManager = null;
 
     public abstract void connect(ChannelHandlerContext ctx, MessageWrapper wrapper);

@@ -15,6 +15,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;

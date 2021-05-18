@@ -3,11 +3,13 @@ package com.ibyte.iot.tcp.connector.tcp;
 import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.tcp.listener.TcpHeartbeatListener;
 import com.ibyte.iot.tcp.message.MessageWrapper;
-
 import io.netty.channel.ChannelHandlerContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 public class TcpConnector extends ExchangeTcpConnector {
 
@@ -16,18 +18,19 @@ public class TcpConnector extends ExchangeTcpConnector {
     private TcpHeartbeatListener tcpHeartbeatListener = null;
 
     @Override
+    @PostConstruct
     public void init() {
         tcpHeartbeatListener = new TcpHeartbeatListener(tcpSessionManager);
-
         Thread heartbeatThread = new Thread(tcpHeartbeatListener, "tcpHeartbeatListener");
         heartbeatThread.setDaemon(true);
         heartbeatThread.start();
     }
 
+
     @Override
+    @PreDestroy
     public void destroy() {
         tcpHeartbeatListener.stop();
-
         for (Session session : tcpSessionManager.getSessions()) {
             session.close();
         }
