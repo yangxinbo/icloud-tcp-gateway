@@ -1,7 +1,7 @@
 package com.ibyte.iot.test.data;
 
 import com.ibyte.iot.tcp.connector.tcp.codec.MessageBuf;
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
 

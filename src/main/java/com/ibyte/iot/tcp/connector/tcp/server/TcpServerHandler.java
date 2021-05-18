@@ -9,12 +9,10 @@ import com.ibyte.iot.tcp.message.MessageWrapper;
 import com.ibyte.iot.tcp.message.SystemMessage;
 import com.ibyte.iot.tcp.notify.NotifyProxy;
 import com.ibyte.iot.tcp.utils.NetUtils;
-
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +44,9 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
                 // inbound
                 if (message.getFormat() == SEND) {
                     MessageWrapper wrapper = proxy.invoke(sMsg, message);
-                    if (wrapper != null)
+                    if (wrapper != null) {
                         this.receive(ctx, wrapper);
+                    }
                 }
                 // outbound
                 if (message.getFormat() == REPLY) {

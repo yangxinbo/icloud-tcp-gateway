@@ -2,10 +2,8 @@ package com.ibyte.iot.tcp.utils;
 
 import com.ibyte.iot.tcp.constant.Constants;
 import com.ibyte.iot.tcp.exception.InitErrorException;
-
 import io.netty.channel.Channel;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,8 +155,9 @@ public class NetUtils {
      * @return 是否合法
      */
     private static boolean isValidAddress(InetAddress address) {
-        if (address == null || address.isLoopbackAddress())
+        if (address == null || address.isLoopbackAddress()) {
             return false;
+        }
         String name = address.getHostAddress();
         return (name != null
                 && !isAnyHost(name)

@@ -5,8 +5,7 @@ import com.ibyte.iot.tcp.connector.tcp.codec.MessageBuf;
 import com.ibyte.iot.tcp.constant.Constants;
 import com.ibyte.iot.tcp.message.MessageWrapper;
 import com.ibyte.iot.tcp.utils.ByteUtils;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
