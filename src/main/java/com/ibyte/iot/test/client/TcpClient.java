@@ -65,7 +65,7 @@ public class TcpClient {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         try {
             TcpClient.connect(Protocol.generateConnect());
             for (; ; ) {
