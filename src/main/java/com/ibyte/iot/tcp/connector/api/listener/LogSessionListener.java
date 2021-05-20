@@ -1,22 +1,20 @@
 package com.ibyte.iot.tcp.connector.api.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by Li.shangzhi on 17/1/10.
  */
+@Slf4j
 public class LogSessionListener implements SessionListener {
-
-    private final static Logger logger = LoggerFactory.getLogger(LogSessionListener.class);
 
     @Override
     public void sessionCreated(SessionEvent se) {
-        logger.info("session " + se.getSession().getSessionId() + " have been created!");
+        log.info("session " + se.getSession().getSessionId() + " have been created!");
     }
 
     @Override
     public void sessionDestroyed(SessionEvent se) {
-        logger.info("session " + se.getSession().getSessionId() + " have been destroyed!");
+        log.info("session " + se.getSession().getSessionId() + " have been destroyed!");
     }
 }

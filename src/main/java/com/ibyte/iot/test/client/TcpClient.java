@@ -17,7 +17,7 @@ public class TcpClient {
     public static int port = 2000;
 
     public static Bootstrap bootstrap = getBootstrap();
-    public static Channel channel = getChannel(host, port);
+    public static Channel channel = connect(host, port);
 
     /**
      * Init Bootstrap
@@ -42,7 +42,7 @@ public class TcpClient {
         return b;
     }
 
-    public static final Channel getChannel(String host, int port) {
+    public static final Channel connect(String host, int port) {
         Channel channel;
         try {
             channel = bootstrap.connect(host, port).sync().channel();
@@ -53,7 +53,7 @@ public class TcpClient {
         return channel;
     }
 
-    public static void connect(Object msg) throws Exception {
+    public static void writeAndFlush(Object msg) throws Exception {
         if (channel != null) {
             channel.writeAndFlush(msg).sync();
         }
@@ -67,9 +67,9 @@ public class TcpClient {
      */
     public static void main(String[] args)  {
         try {
-            TcpClient.connect(Protocol.generateConnect());
+            TcpClient.writeAndFlush(Protocol.generateConnect());
             for (; ; ) {
-                TcpClient.connect(Protocol.generateHeartbeat());
+                TcpClient.writeAndFlush(Protocol.generateHeartbeat());
                 Thread.sleep(3000);
             }
         } catch (Exception e) {
