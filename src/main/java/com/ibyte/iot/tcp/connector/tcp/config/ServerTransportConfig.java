@@ -5,6 +5,9 @@ import com.ibyte.iot.tcp.invoke.ApiProxy;
 import com.ibyte.iot.tcp.notify.NotifyProxy;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 
+/**
+ * TCP 的配置管理类
+ */
 public class ServerTransportConfig {
 
     /**

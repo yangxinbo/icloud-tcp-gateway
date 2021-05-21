@@ -4,12 +4,13 @@ import com.ibyte.iot.tcp.connector.Connection;
 import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.api.ExchangeSession;
 import com.ibyte.iot.tcp.connector.api.listener.SessionListener;
-
 import io.netty.channel.ChannelHandlerContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 你可以添加监听事件，用于监听TCP会话创建、销毁等
+ */
 public class TcpSessionManager extends ExchangeTcpSessionManager {
 
     private final static Logger logger = LoggerFactory.getLogger(TcpSessionManager.class);

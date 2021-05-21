@@ -11,6 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 发送通知到代理类
+ */
 @Slf4j
 public class NotifyProxy {
 

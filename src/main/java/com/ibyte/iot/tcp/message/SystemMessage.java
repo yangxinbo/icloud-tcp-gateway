@@ -1,5 +1,7 @@
 package com.ibyte.iot.tcp.message;
+
 import java.io.Serializable;
+
 public class SystemMessage implements Serializable {
 
     private String remoteAddress;

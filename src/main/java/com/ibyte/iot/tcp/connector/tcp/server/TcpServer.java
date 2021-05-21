@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+
+/**
+ * 提供TCP连接服务
+ */
 @Slf4j
 public class TcpServer {
 

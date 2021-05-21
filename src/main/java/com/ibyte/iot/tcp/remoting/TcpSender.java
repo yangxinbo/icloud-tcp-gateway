@@ -2,10 +2,12 @@ package com.ibyte.iot.tcp.remoting;
 
 import com.ibyte.iot.tcp.connector.Connector;
 import com.ibyte.iot.tcp.message.MessageWrapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * TCP发送者，用户向客户端发送消息通知、实现下行逻辑
+ */
 public class TcpSender implements Sender {
 
     private final static Logger logger = LoggerFactory.getLogger(TcpSender.class);

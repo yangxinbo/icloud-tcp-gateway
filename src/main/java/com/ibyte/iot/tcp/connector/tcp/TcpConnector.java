@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+
+/**
+ * TCP 容器,用于管理服务和客户端的连接
+ */
 @Slf4j
 public class TcpConnector extends ExchangeTcpConnector {
 

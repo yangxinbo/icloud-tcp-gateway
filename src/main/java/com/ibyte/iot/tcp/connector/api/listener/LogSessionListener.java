@@ -3,7 +3,7 @@ package com.ibyte.iot.tcp.connector.api.listener;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Created by Li.shangzhi on 17/1/10.
+ * 一个日志监听器，它和tcpSessionManager关联，监听器必须事先 SessionListener
  */
 @Slf4j
 public class LogSessionListener implements SessionListener {
