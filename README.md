@@ -32,7 +32,7 @@ NioEventLoop 是 Netty 的 Reactor 线程，其角色：
 
 > 以上都是默认配置,你可以不修改，但是你可能需要换个TCP端口
 
-### .TCP网关的网络结构
+### TCP网关的网络结构
 基于Netty构建TCP网关的长连接容器，作为网关接入层提供服务API请求调用。
 
 客户端通过域名+端口访问TCP网关，域名不同的运营商对应不同的VIP，VIP发布在LVS上，LVS将请求转发给后端的HAProxy，再由HAProxy把请求转发给后端的Netty的IP+Port。

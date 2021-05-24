@@ -3,7 +3,6 @@ package com.ibyte.iot.tcp.connector.api;
 import com.ibyte.iot.tcp.connector.Session;
 import com.ibyte.iot.tcp.connector.SessionManager;
 import com.ibyte.iot.tcp.connector.api.listener.SessionListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +28,7 @@ public abstract class ExchangeSessionManager implements SessionManager {
      * The set of currently active Sessions for this Manager, keyed by session
      * identifier.
      */
-    protected Map<String, Session> sessions = new ConcurrentHashMap<String, Session>();
+    protected Map<String, Session> sessions = new ConcurrentHashMap<>();
 
     /**
      * define timeout 5min
@@ -49,7 +48,6 @@ public abstract class ExchangeSessionManager implements SessionManager {
     public synchronized void updateSession(String sessionId) {
         Session session = sessions.get(sessionId);
         session.setLastAccessedTime(System.currentTimeMillis());
-
         sessions.put(sessionId, session);
     }
 
